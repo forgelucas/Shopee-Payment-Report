@@ -17,11 +17,11 @@
   <h2>📂 Estrutura do Projeto</h2>
   <div class="structure">
 📁 projeto-pagamentos
- ┣ 📜 analiseDuplicidade.py
- ┣ 📜 conciliarPagamentos.py
- ┣ 📊 clienteRelatorio.xlsx
- ┣ 📊 dootaxRelatorio.xlsx
- ┗ 📄 README.html
+ - 📜 analiseDuplicidade.py
+ - 📜 conciliarPagamentos.py
+ - 📊 clienteRelatorio.xlsx
+ - 📊 dootaxRelatorio.xlsx
+ - 📄 README.html
   </div>
 
   <h2>📝 Script 1 – <code>analiseDuplicidade.py</code></h2>
