@@ -14,16 +14,6 @@
     <li>Arquivos de entrada em formato <strong>Excel (.xlsx)</strong></li>
   </ul>
 
-  <h2>📂 Estrutura do Projeto</h2>
-  <div class="structure">
-📁 projeto-pagamentos
- - 📜 analiseDuplicidade.py
- - 📜 conciliarPagamentos.py
- - 📊 clienteRelatorio.xlsx
- - 📊 dootaxRelatorio.xlsx
- - 📄 README.html
-  </div>
-
   <h2>📝 Script 1 – <code>analiseDuplicidade.py</code></h2>
 
   <h3>Função</h3>
