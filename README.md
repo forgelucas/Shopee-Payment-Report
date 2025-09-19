@@ -1,33 +1,252 @@
-# Shopee-Payment-Report
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Documentação - Análise e Conciliação de Pagamentos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 40px;
+      background-color: #fafafa;
+      color: #333;
+    }
+    h1, h2, h3 {
+      color: #2c3e50;
+    }
+    code {
+      background-color: #f4f4f4;
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    pre {
+      background: #f4f4f4;
+      padding: 10px;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+    table {
+      border-collapse: collapse;
+      margin: 15px 0;
+      width: 100%;
+    }
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+    th, td {
+      padding: 8px 12px;
+      text-align: left;
+    }
+    th {
+      background: #ecf0f1;
+    }
+    .warning {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px;
+      margin: 15px 0;
+    }
+    .structure {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 10px;
+      border-radius: 6px;
+      font-family: monospace;
+      white-space: pre;
+    }
+  </style>
+</head>
+<body>
 
-## 🔍 Sobre o projeto
+  <h1>🔎 Análise e Conciliação de Pagamentos</h1>
+  <p>
+    Este projeto contém dois scripts em <strong>Python</strong> para auxiliar na identificação de 
+    <strong>registros duplicados</strong> em relatórios de clientes e na 
+    <strong>conciliação de pagamentos</strong> com os dados exportados da plataforma (ex.: Dootax).
+  </p>
 
-O **Shopee Payment Report** é uma ferramenta desenvolvida em **Python** para automatizar a **conciliação de pagamentos em duplicidade** realizados pela Shopee.
+  <h2>📦 Pré-requisitos</h2>
+  <ul>
+    <li>Python 3.x instalado</li>
+    <li>Bibliotecas necessárias:
+      <pre><code>pip install pandas openpyxl</code></pre>
+    </li>
+    <li>Arquivos de entrada em formato <strong>Excel (.xlsx)</strong></li>
+  </ul>
 
-O projeto surgiu a partir de uma necessidade identificada na plataforma **Dootax**, que é utilizada para efetuar pagamentos de notas fiscais eletrônicas (NFEs) e notas de conhecimento de transporte (CTEs). A Shopee enviou um relatório contendo possíveis duplicidades, e com base nesse material, foi criado um programa capaz de identificar registros repetidos e cruzar essas informações com os pagamentos realizados pela Dootax.
+  <h2>📂 Estrutura do Projeto</h2>
+  <div class="structure">
+📁 projeto-pagamentos
+ ┣ 📜 analiseDuplicidade.py
+ ┣ 📜 conciliarPagamentos.py
+ ┣ 📊 clienteRelatorio.xlsx
+ ┣ 📊 dootaxRelatorio.xlsx
+ ┗ 📄 README.html
+  </div>
 
-A solução facilita a conferência manual, reduz riscos de erro e aumenta a eficiência na identificação de pagamentos indevidos.
+  <h2>📝 Script 1 – <code>analiseDuplicidade.py</code></h2>
 
----
+  <h3>Função</h3>
+  <p>
+    Analisa o relatório de pagamentos do cliente e separa os registros em 
+    <strong>duplicados</strong> e <strong>únicos</strong>.
+  </p>
 
-## ⚙️ Como funciona
+  <h3>Fluxo</h3>
+  <ol>
+    <li>Carrega o relatório do cliente (<code>clienteRelatorio.xlsx</code>).</li>
+    <li>Seleciona colunas-chave:
+      <ul>
+        <li><code>total_amount</code></li>
+        <li><code>numero_nota_ajustado</code></li>
+        <li><code>str_cnpj_contribuinte</code></li>
+      </ul>
+    </li>
+    <li>Normaliza os dados (remove espaços, converte para <code>string</code>).</li>
+    <li>Cria uma chave de comparação (<code>chave</code>).</li>
+    <li>Identifica registros duplicados e únicos.</li>
+    <li>Exporta os resultados:
+      <ul>
+        <li><code>arquivosDuplicados.xlsx</code></li>
+        <li><code>arquivosUnicos.xlsx</code></li>
+      </ul>
+    </li>
+  </ol>
 
-O projeto é dividido em duas etapas principais:
+  <h3>Saída</h3>
+  <ul>
+    <li><code>arquivosDuplicados.xlsx</code> → Registros com chave repetida</li>
+    <li><code>arquivosUnicos.xlsx</code> → Registros sem duplicidade</li>
+  </ul>
 
-### 1️⃣ Identificação de duplicidades no relatório da Shopee
+  <div class="warning">
+    <strong>⚠️ Atenção</strong><br>
+    As colunas no arquivo do cliente devem ter exatamente os nomes abaixo:
+  </div>
 
-- 📥 Recebe como entrada o relatório enviado pela Shopee;
-- 🔑 Utiliza **campos-chave** definidos no código para detectar registros duplicados;
-- 📊 Gera dois arquivos:
-  - registros únicos
-  - registros duplicados
+  <table>
+    <tr>
+      <th>Nome esperado no Excel</th>
+      <th>Tipo de dado</th>
+      <th>Descrição</th>
+    </tr>
+    <tr>
+      <td><code>total_amount</code></td>
+      <td>string/float</td>
+      <td>Valor total da transação</td>
+    </tr>
+    <tr>
+      <td><code>numero_nota_ajustado</code></td>
+      <td>string</td>
+      <td>Número da nota fiscal</td>
+    </tr>
+    <tr>
+      <td><code>str_cnpj_contribuinte</code></td>
+      <td>string</td>
+      <td>CNPJ do contribuinte</td>
+    </tr>
+  </table>
 
-### 2️⃣ Conciliação com os dados da plataforma Dootax
+  <h2>📝 Script 2 – <code>conciliarPagamentos.py</code></h2>
 
-- 📥 Recebe como entrada o relatório de pagamentos extraído da **Dootax**;
-- 🔍 Compara os dados com os registros duplicados da Shopee;
-- 🔗 Cruza os dados com base em **campos-chave correspondentes**;
-- 📤 Gera um relatório final consolidado com os documentos **efetivamente pagos em duplicidade**.
+  <h3>Função</h3>
+  <p>
+    Compara os registros <strong>duplicados do cliente</strong> com o relatório da 
+    <strong>Dootax</strong>, conciliando os pagamentos.
+  </p>
 
----
+  <h3>Fluxo</h3>
+  <ol>
+    <li>Carrega os arquivos:
+      <ul>
+        <li><code>dootaxRelatorio.xlsx</code></li>
+        <li><code>arquivosDuplicados.xlsx</code></li>
+      </ul>
+    </li>
+    <li>Padroniza colunas:
+      <ul>
+        <li>Substitui vírgulas por pontos em valores numéricos</li>
+        <li>Remove espaços extras</li>
+      </ul>
+    </li>
+    <li>Cria a chave de comparação:
+      <ul>
+        <li><strong>Dootax</strong>: <code>TITULO_NUMERO_CONTROLE + VALOR_TOTAL</code></li>
+        <li><strong>Cliente</strong>: <code>control_num + total_amount</code></li>
+      </ul>
+    </li>
+    <li>Faz o <code>merge</code> entre registros coincidentes</li>
+    <li>Seleciona colunas relevantes</li>
+    <li>Exporta para <code>pagamentosConciliados.xlsx</code></li>
+  </ol>
 
+  <h3>Saída</h3>
+  <p><code>pagamentosConciliados.xlsx</code> → Relatório conciliado com dados do cliente e da plataforma</p>
+
+  <div class="warning">
+    <strong>⚠️ Atenção</strong><br>
+    As colunas devem estar padronizadas conforme abaixo:
+  </div>
+
+  <h4>No relatório da Dootax (<code>dootaxRelatorio.xlsx</code>):</h4>
+  <table>
+    <tr>
+      <th>Nome esperado no Excel</th>
+      <th>Tipo de dado</th>
+      <th>Descrição</th>
+    </tr>
+    <tr>
+      <td><code>VALOR_TOTAL</code></td>
+      <td>float</td>
+      <td>Valor total da transação</td>
+    </tr>
+    <tr>
+      <td><code>TITULO_NUMERO_CONTROLE</code></td>
+      <td>string</td>
+      <td>Número de controle do título</td>
+    </tr>
+  </table>
+
+  <h4>No relatório do Cliente (<code>arquivosDuplicados.xlsx</code>):</h4>
+  <table>
+    <tr>
+      <th>Nome esperado no Excel</th>
+      <th>Tipo de dado</th>
+      <th>Descrição</th>
+    </tr>
+    <tr>
+      <td><code>total_amount</code></td>
+      <td>float</td>
+      <td>Valor total da transação</td>
+    </tr>
+    <tr>
+      <td><code>control_num</code></td>
+      <td>string</td>
+      <td>Número de controle do cliente</td>
+    </tr>
+  </table>
+
+  <h2>🚀 Como Executar</h2>
+  <ol>
+    <li>Coloque os arquivos <code>clienteRelatorio.xlsx</code> e <code>dootaxRelatorio.xlsx</code> na mesma pasta dos scripts.</li>
+    <li>Execute a análise de duplicidade:
+      <pre><code>python analiseDuplicidade.py</code></pre>
+      → Gera <code>arquivosDuplicados.xlsx</code> e <code>arquivosUnicos.xlsx</code>
+    </li>
+    <li>Execute a conciliação de pagamentos:
+      <pre><code>python conciliarPagamentos.py</code></pre>
+      → Gera <code>pagamentosConciliados.xlsx</code>
+    </li>
+  </ol>
+
+  <h2>⚠️ Pontos de Atenção</h2>
+  <ul>
+    <li>Sempre valide os <strong>nomes das colunas</strong> nos relatórios antes da execução.</li>
+    <li>Caso o nome seja diferente, <strong>ajuste no código</strong> para refletir corretamente.</li>
+    <li>O tratamento de <strong>tipos de dados</strong> (string, float) é essencial para criar a chave de comparação.</li>
+    <li>O resultado final depende da consistência entre os relatórios do cliente e da plataforma.</li>
+  </ul>
+
+</body>
+</html>
