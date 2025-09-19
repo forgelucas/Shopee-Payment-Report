@@ -1,64 +1,3 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <title>Documentação - Análise e Conciliação de Pagamentos</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      margin: 40px;
-      background-color: #fafafa;
-      color: #333;
-    }
-    h1, h2, h3 {
-      color: #2c3e50;
-    }
-    code {
-      background-color: #f4f4f4;
-      padding: 3px 6px;
-      border-radius: 4px;
-      font-size: 14px;
-    }
-    pre {
-      background: #f4f4f4;
-      padding: 10px;
-      border-radius: 6px;
-      overflow-x: auto;
-    }
-    table {
-      border-collapse: collapse;
-      margin: 15px 0;
-      width: 100%;
-    }
-    table, th, td {
-      border: 1px solid #ccc;
-    }
-    th, td {
-      padding: 8px 12px;
-      text-align: left;
-    }
-    th {
-      background: #ecf0f1;
-    }
-    .warning {
-      background: #fff3cd;
-      border-left: 6px solid #ffeeba;
-      padding: 10px;
-      margin: 15px 0;
-    }
-    .structure {
-      background: #272822;
-      color: #f8f8f2;
-      padding: 10px;
-      border-radius: 6px;
-      font-family: monospace;
-      white-space: pre;
-    }
-  </style>
-</head>
-<body>
-
   <h1>🔎 Análise e Conciliação de Pagamentos</h1>
   <p>
     Este projeto contém dois scripts em <strong>Python</strong> para auxiliar na identificação de 
@@ -247,6 +186,3 @@
     <li>O tratamento de <strong>tipos de dados</strong> (string, float) é essencial para criar a chave de comparação.</li>
     <li>O resultado final depende da consistência entre os relatórios do cliente e da plataforma.</li>
   </ul>
-
-</body>
-</html>
